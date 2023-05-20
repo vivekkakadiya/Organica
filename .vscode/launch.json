@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-OrganicaApplication<organica>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.organica.OrganicaApplication",
+            "projectName": "organica",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
