@@ -7,7 +7,7 @@ export const Offers = () => {
         <div className="container">
           <ul className="offers-list has-scrollbar">
             <li className="offers-item">
-              <a href="./shop.html" className="offers-card">
+              <a href="/shop" className="offers-card">
                 <figure className="card-banner">
                   <img
                     src="./images/offer-1.png"
@@ -26,7 +26,7 @@ export const Offers = () => {
               </a>
             </li>
             <li className="offers-item">
-              <a href="./shop.html" className="offers-card">
+              <a href="/shop" className="offers-card">
                 <figure className="card-banner">
                   <img
                     src="./images/offer-2.png"

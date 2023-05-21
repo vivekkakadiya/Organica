@@ -41,7 +41,7 @@ export const TopProduct = () => {
                     <ion-icon name="star" />
                   </div>
                   <h3 className="h4 card-title">
-                    <a href="./product-details.html">Fresh Orangey</a>
+                    <a href="/product/1">Fresh Orangey</a>
                   </h3>
                   <div className="price-wrapper">
                     <del className="del">$75.00</del>
@@ -86,7 +86,7 @@ export const TopProduct = () => {
                     <ion-icon name="star" />
                   </div>
                   <h3 className="h4 card-title">
-                    <a href="./product-details.html">key Lime</a>
+                    <a href="/product/1">key Lime</a>
                   </h3>
                   <div className="price-wrapper">
                     <del className="del">$75.00</del>
@@ -131,7 +131,7 @@ export const TopProduct = () => {
                     <ion-icon name="star" />
                   </div>
                   <h3 className="h4 card-title">
-                    <a href="./product-details.html">Fresh Watermelon</a>
+                    <a href="/product/1">Fresh Watermelon</a>
                   </h3>
                   <div className="price-wrapper">
                     <del className="del">$75.00</del>
@@ -176,7 +176,7 @@ export const TopProduct = () => {
                     <ion-icon name="star" />
                   </div>
                   <h3 className="h4 card-title">
-                    <a href="./product-details.html">Stobery</a>
+                    <a href="/product/1">Stobery</a>
                   </h3>
                   <div className="price-wrapper">
                     <del className="del">$75.00</del>
@@ -221,7 +221,7 @@ export const TopProduct = () => {
                     <ion-icon name="star" />
                   </div>
                   <h3 className="h4 card-title">
-                    <a href="./product-details.html">Pomagranate Fruit</a>
+                    <a href="/product/1">Pomagranate Fruit</a>
                   </h3>
                   <div className="price-wrapper">
                     <del className="del">$75.00</del>
@@ -266,7 +266,7 @@ export const TopProduct = () => {
                     <ion-icon name="star" />
                   </div>
                   <h3 className="h4 card-title">
-                    <a href="./product-details.html">Lens Results Broccoli</a>
+                    <a href="/product/1">Lens Results Broccoli</a>
                   </h3>
                   <div className="price-wrapper">
                     <del className="del">$75.00</del>
@@ -311,7 +311,7 @@ export const TopProduct = () => {
                     <ion-icon name="star" />
                   </div>
                   <h3 className="h4 card-title">
-                    <a href="./product-details.html">Lens Results Spinach</a>
+                    <a href="/product/1">Lens Results Spinach</a>
                   </h3>
                   <div className="price-wrapper">
                     <del className="del">$75.00</del>
@@ -356,7 +356,7 @@ export const TopProduct = () => {
                     <ion-icon name="star" />
                   </div>
                   <h3 className="h4 card-title">
-                    <a href="./product-details.html">Lorigun Artificial</a>
+                    <a href="/product/1">Lorigun Artificial</a>
                   </h3>
                   <div className="price-wrapper">
                     <del className="del">$75.00</del>
@@ -401,7 +401,7 @@ export const TopProduct = () => {
                     <ion-icon name="star" />
                   </div>
                   <h3 className="h4 card-title">
-                    <a href="./product-details.html">Leaf lettuce</a>
+                    <a href="/product/1">Leaf lettuce</a>
                   </h3>
                   <div className="price-wrapper">
                     <del className="del">$75.00</del>

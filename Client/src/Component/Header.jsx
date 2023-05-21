@@ -21,7 +21,7 @@ export const Header = () => {
     <div className="nav-wrapper">
       <div className="container">
         <h1 className="h1">
-          <a href="./index.html" className="logo">
+          <a href="/" className="logo">
             Organ<span className="span">ica</span>
           </a>
         </h1>
@@ -42,7 +42,7 @@ export const Header = () => {
           </button>
           <ul className="navbar-list">
             <li>
-              <a href="./index.html" className="navbar-link">
+              <a href="/" className="navbar-link">
                 Home
               </a>
             </li>

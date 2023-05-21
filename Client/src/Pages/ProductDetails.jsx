@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Header } from '../Component/Header'
 import { Footer } from '../Component/Footer'
 
 export const ProductDetails = () => {
+  
+  useEffect(() => { window.scrollTo(0, 0) }, []);
+  
   return (
     <>
     

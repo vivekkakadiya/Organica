@@ -14,7 +14,7 @@ export const Hero = () => {
             <p className="hero-text">
               It has survived not only five centuries also there leaped.
             </p>
-            <a href="./shop.html" className="btn btn-primary">
+            <a href="/shop" className="btn btn-primary">
               <span className="span">Shop Now</span>
               <ion-icon name="chevron-forward" aria-hidden="true" />
             </a>

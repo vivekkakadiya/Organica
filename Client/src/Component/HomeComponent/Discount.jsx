@@ -10,7 +10,7 @@ export const Discount = () => {
           <p className="cta-text">
             It has survived not only five centuries also leaped.
           </p>
-          <a href="./shop.html" className="btn btn-primary">
+          <a href="/shop" className="btn btn-primary">
             <span>Shop Now</span>
             <ion-icon name="chevron-forward" aria-hidden="true" />
           </a>

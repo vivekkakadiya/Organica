@@ -2159,6 +2159,26 @@ body {
 .product-count .qtyplus {
 	border-radius: 0 3px 3px 0; 
 }
+
+/* cart start */
+.qty1{
+  width: 30px;
+  font-size: 20px;
+  text-align: center;
+  padding-top: 5px;
+}
+.qtyminus1{
+  font-size: 40px;
+}
+.qtyplus1{
+  font-size: 30px;
+}
+.qty2{
+  width: 50px;
+}
+
+
+/* cart end */
 .product-count .qty {
 	width: 60px;
 	text-align: center;

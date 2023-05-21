@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Header } from '../Component/Header'
 import { Hero } from '../Component/HomeComponent/Hero'
 import { Service } from '../Component/HomeComponent/Service'
@@ -17,6 +17,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
 export const Home = () => {
+
+  useEffect(() => { window.scrollTo(0, 0) }, []);
+
+
   return (
     <>
   {/* 

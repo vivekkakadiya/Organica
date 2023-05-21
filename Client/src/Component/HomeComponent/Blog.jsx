@@ -34,11 +34,11 @@ export const Blog = () => {
                     </div>
                   </div>
                   <h3 className="h3 card-title">
-                    <a href="./404.html">
+                    <a href="/404">
                       We automatically search for andapply coupons when.
                     </a>
                   </h3>
-                  <a href="./404.html" className="btn btn-primary">
+                  <a href="/404" className="btn btn-primary">
                     <span>Read More</span>
                     <ion-icon name="chevron-forward" aria-hidden="true" />
                   </a>
@@ -71,11 +71,11 @@ export const Blog = () => {
                     </div>
                   </div>
                   <h3 className="h3 card-title">
-                    <a href="./404.html">
+                    <a href="/404">
                       How to get more traffic in your website of ecommerce.
                     </a>
                   </h3>
-                  <a href="./404.html" className="btn btn-primary">
+                  <a href="/404" className="btn btn-primary">
                     <span>Read More</span>
                     <ion-icon name="chevron-forward" aria-hidden="true" />
                   </a>
@@ -108,11 +108,11 @@ export const Blog = () => {
                     </div>
                   </div>
                   <h3 className="h3 card-title">
-                    <a href="./404.html">
+                    <a href="/404">
                       25 Rules and regulation to be successful in your business.
                     </a>
                   </h3>
-                  <a href="./404.html" className="btn btn-primary">
+                  <a href="/404" className="btn btn-primary">
                     <span>Read More</span>
                     <ion-icon name="chevron-forward" aria-hidden="true" />
                   </a>

@@ -7,7 +7,7 @@ export const Footer = () => {
     <div className="footer-top">
       <div className="container">
         <div className="footer-brand">
-          <a href="./index.html" className="logo">
+          <a href="/" className="logo">
             Organ<span className="span">ica</span>
           </a>
           <p className="footer-text">
@@ -43,27 +43,27 @@ export const Footer = () => {
             <p className="footer-list-title">Company</p>
           </li>
           <li>
-            <a href="./about.html" className="footer-link">
+            <a href="/about" className="footer-link">
               About Us
             </a>
           </li>
           <li>
-            <a href="./shop.html" className="footer-link">
+            <a href="/shop" className="footer-link">
               Shop
             </a>
           </li>
           <li>
-            <a href="./blog.html" className="footer-link">
+            <a href="/blog" className="footer-link">
               Blog
             </a>
           </li>
           <li>
-            <a href="./shop.html" className="footer-link">
+            <a href="/shop" className="footer-link">
               Product
             </a>
           </li>
           <li>
-            <a href="./contact.html" className="footer-link">
+            <a href="/contact" className="footer-link">
               Contact Us
             </a>
           </li>
@@ -126,7 +126,7 @@ export const Footer = () => {
         <p className="copyright">
           © 2022{" "}
           <a href="#" className="copyright-link">
-            codewithsadee
+            vivekkakadiya
           </a>
           . All Rights Reserved.
         </p>

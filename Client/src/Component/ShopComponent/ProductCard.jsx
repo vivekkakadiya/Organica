@@ -42,7 +42,7 @@ export const ProductCard = (props) => {
                     <ion-icon name="star" />
                   </div>
                   <h3 className="h4 card-title">
-                    <a href="./product-details.html">{props.name}</a>
+                    <a href="/product/1">{props.name}</a>
                   </h3>
                   <div className="price-wrapper">
                     <del className="del">$75.00</del>
