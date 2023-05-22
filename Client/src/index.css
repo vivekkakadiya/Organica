@@ -2262,3 +2262,52 @@ body {
 	text-transform: uppercase;
 	cursor: pointer;
 }
+
+/* chechout */
+/* 
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.oneLine {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #cc1db9;
+  border-color: #cc1db9;
+}
+
+.btn-primary:hover {
+  color: #fff;
+  background-color: #a01492;
+  border-color: #a01492;
+}
+
+.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show > .btn-primary.dropdown-toggle {
+  color: #fff;
+  background-color: #cc1db9;
+  border-color: #cc1db9;
+}
+
+.btn-primary.focus, .btn-primary:focus {
+  color: #fff;
+  background-color: #cc1db9;
+  border-color: #cc1db9;
+  box-shadow: 0 0 0 .2rem rgb(204,29,185);
+}
+
+@media (max-width: 450px) {
+  .DeskView {
+    display: none;
+  }
+} */
+

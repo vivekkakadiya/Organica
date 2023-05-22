@@ -21,11 +21,15 @@ export const ListProduct = () => {
       description: "This is the third product.",
       price: 39.99,
     },
+    {
+      id: "P003",
+      name: "Product 3",
+      description: "This is the third product.",
+      price: 39.99,
+    },
   ];
 
-  const handalClick = () => {
-    console.log("fs");
-  };
+  
   return (
     <>
       <section id="products" className="section product">
