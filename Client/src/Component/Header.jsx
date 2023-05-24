@@ -52,10 +52,12 @@ export const Header = () => {
               </Link>
             </li>
             <li>
-            <Link activeClass="active" className="navbar-link" smooth="linear" spy to="products" offset={-30}>
+            {/* <Link to="/shop" activeClass="active" className="navbar-link"  >
             Shop
-              </Link>
-             
+              </Link> */}
+              <a href="/shop" className="navbar-link">
+                Shop
+              </a>
             </li>
             <li>
             <Link activeClass="active" className="navbar-link" smooth="linear" spy to="blog" offset={-30}>
