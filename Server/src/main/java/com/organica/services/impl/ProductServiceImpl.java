@@ -44,6 +44,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductDto ReadProduct(Integer ProductId) {
 
         Product save = this.productRepo.findById(ProductId).orElseThrow();
+        save.setImg(decompressBytes(save.getImg()));
 
 
         return this.modelMapper.map(save,ProductDto.class);
@@ -56,7 +57,7 @@ public class ProductServiceImpl implements ProductService {
 
         List<Product> all = this.productRepo.findAll();
 
-        List<ProductDto> collect = all.stream().map(dto -> new ProductDto(dto.getProductId(), dto.getProductName(), dto.getDescription(), dto.getPrice(), dto.getWeight(), null)).collect(Collectors.toList());
+        List<ProductDto> collect = all.stream().map(dto -> new ProductDto(dto.getProductId(), dto.getProductName(), dto.getDescription(), dto.getPrice(), dto.getWeight(), decompressBytes(dto.getImg()))).collect(Collectors.toList());
 
         return collect;
     }

@@ -2311,3 +2311,10 @@ input[type=number] {
   }
 } */
 
+
+
+.productimg{
+  width: 167px;
+  height: 167px;
+  overflow: hidden;
+}

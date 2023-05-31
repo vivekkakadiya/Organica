@@ -2,6 +2,7 @@ import React from 'react'
 import {useNavigate} from "react-router-dom"
 
 export const ProductCard = (props) => {
+
     const navigate = useNavigate();
     const handalClick = (id) => {
         console.log(id);
@@ -14,7 +15,10 @@ export const ProductCard = (props) => {
                 <div className="product-card" onClick={()=>handalClick(props.id)}>
                   <figure className="card-banner">
                     <img
-                      src="./images/product-1.png"
+                      // src="./images/product-1.png"
+                      src={`data:image/png;base64,${props.img}`}
+                      // src={base64Image}
+                      
                       width={189}
                       height={189}
                       loading="lazy"

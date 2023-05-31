@@ -2,12 +2,9 @@ package com.organica.controllers;
 
 import com.organica.payload.ApiResponse;
 import com.organica.payload.ProductDto;
-import com.organica.repositories.ProductRepo;
 import com.organica.services.ProductService;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +14,8 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("product")
+@CrossOrigin
+@RequestMapping("/product")
 public class ProductControllers {
 
     @Autowired

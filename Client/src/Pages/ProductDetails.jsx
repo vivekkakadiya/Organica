@@ -1,10 +1,46 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Header } from '../Component/Header'
 import { Footer } from '../Component/Footer'
+import { useParams } from 'react-router-dom';
 
 export const ProductDetails = () => {
   
-  useEffect(() => { window.scrollTo(0, 0) }, []);
+  const [data, setData] = useState([]);
+  const [quantity, setQuantity] = useState(1);
+  const {id}=useParams();
+
+  const handleQuantity = (e) => {
+    setQuantity(e.target.value);
+  }
+  const handleMinus = () => {
+    if (quantity >1) {
+      setQuantity(quantity - 1);
+    }
+  }
+  const handlePlus = () => {
+    if (quantity > 0) {
+      setQuantity(quantity + 1);
+    }
+  }
+
+  const handleCart = () => {
+
+    //handle cart at backend
+   
+  }
+  console.log(quantity);
+  useEffect(() => {
+    window.scrollTo(0, 0) 
+
+    const fatchData = async () => {
+      const response = await fetch(`http://localhost:9090/product/${id}`);
+
+      const res = await response.json();
+      setData(res);
+    }
+    fatchData();
+  }, []);
+
   
   return (
     <>
@@ -17,22 +53,14 @@ export const ProductDetails = () => {
         <h2>Product Details</h2>
       </div> */}
       <div className="row">
-        <div className="col-md-6">
-          <div id="slider" className="owl-carousel product-slider">
-           <div className="item">
-              <img src="./images/product-2.png" />
-            </div>
-          </div>
-          <div id="thumb" className="owl-carousel product-thumb">
-            <div className="item">
-              <img src="./images/product-2.png" />
-            </div>
-          </div>
-        </div>
+        <div className="col-md-6 d-flex justify-content-center">
+              {!data.img?<></>:<img className='productimg'  width="167" 
+     height="250" src={`data:image/png;base64,${data.img}`} alt="Product Image"/>}
+                 </div>
         <div className="col-md-6">
           <div className="product-dtl">
             <div className="product-info">
-              <div className="product-name">Variable Product</div>
+              <div className="product-name">{data.productName}</div>
               <div className="reviews-counter">
                 <div className="rate">
                   <input
@@ -77,15 +105,12 @@ export const ProductDetails = () => {
                 <span>3 Reviews</span>
               </div>
               <div className="product-price-discount">
-                <span>$39.00</span>
-                <span className="line-through">$29.00</span>
+                <span>Rs {data.price}</span>
+                <span className="line-through">Rs {data.price+100}</span>
               </div>
             </div>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
+              {data.productDescription}
             </p>
             <div className="row">
               {/* <div className="col-md-6">
@@ -109,16 +134,18 @@ export const ProductDetails = () => {
             <div className="product-count">
               <label htmlFor="size">Quantity</label>
               <form action="#" className="display-flex">
-                <div className="qtyminus">-</div>
+                <div className="qtyminus" onClick={handleMinus}>-</div>
                 <input
                   type="text"
                   name="quantity"
+                  onChange={(e)=>handleQuantity(e)}
                   defaultValue={1}
+                  value={quantity}
                   className="qty"
                 />
-                <div className="qtyplus">+</div>
+                <div className="qtyplus" onClick={handlePlus}>+</div>
               </form>
-              <a href="#" className="round-black-btn">
+              <a href="#" className="round-black-btn" onClick={handleCart}>
                 Add to Cart
               </a>
             </div>

@@ -1,33 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ProductCard } from "../ShopComponent/ProductCard";
 
 export const ListProduct = () => {
-  const data = [
-    {
-      id: "P001",
-      name: "Product 1",
-      description: "This is the first product.",
-      price: 19.99,
-    },
-    {
-      id: "P002",
-      name: "Product 2",
-      description: "This is the second product.",
-      price: 29.99,
-    },
-    {
-      id: "P003",
-      name: "Product 3",
-      description: "This is the third product.",
-      price: 39.99,
-    },
-    {
-      id: "P003",
-      name: "Product 3",
-      description: "This is the third product.",
-      price: 39.99,
-    },
-  ];
+  
+  const[data,setData]=useState([]);
+  useEffect(() => {
+    const fatchData = async () => {
+      const response = await fetch("http://localhost:9090/product/");
+      
+      const res = await response.json();
+      setData(res);
+  
+      console.log(res);
+    };
+    fatchData();
+  }, []);
 
   
   return (
@@ -109,7 +96,7 @@ export const ListProduct = () => {
           <ul className="grid-list">
             {data.map((item) => 
 
-               <ProductCard key={item.id} id={item.id} name={item.name} description={item.description} price={item.price} />
+               <ProductCard key={item.productid} id={item.productid} name={item.productName} description={item.description} price={item.price} img={item.img} />
             
             
         
