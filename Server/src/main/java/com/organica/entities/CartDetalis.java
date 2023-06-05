@@ -1,5 +1,6 @@
 package com.organica.entities;
 
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,22 +14,21 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @ToString
-public class Cart {
-
+public class CartDetalis {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int Id;
+    private int CartDetalisId;
 
     @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-    private float TotalAmount;
+    private Product products;
+    private int Quantity;
+    private int Amount;
+
+    @ManyToOne
+    private Cart cart;
 
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "cart")
-    private List<CartDetalis> cartDetalis;
 
 
-    public void setCartDetalis(List<CartDetalis> pro) {
-    }
+
 }

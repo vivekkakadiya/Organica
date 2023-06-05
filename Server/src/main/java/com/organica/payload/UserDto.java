@@ -1,21 +1,23 @@
-package com.organica.entities;
+package com.organica.payload;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.*;
+import com.organica.entities.Cart;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.OneToOne;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.Date;
 
-@Entity
-@NoArgsConstructor
-@Data
 @ToString
-public class User {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private int Userid;
 
     private String FName;
@@ -25,11 +27,10 @@ public class User {
     private String Contact;
 
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date date;
 
     private String Role;
 
-    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
-    private Cart cart;
+//     private CartDto cart;
+
 }

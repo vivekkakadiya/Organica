@@ -3,12 +3,14 @@ package com.organica.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 
 @Entity
 @NoArgsConstructor
 @Data
+@ToString
 public class Product {
 
     @Id
@@ -23,6 +25,4 @@ public class Product {
     @Column(length = 65555)
     private byte[] Img;
 
-    @OneToMany(mappedBy = "product",cascade = CascadeType.REMOVE)
-    private List<CartDetails> cartDetails;
 }
