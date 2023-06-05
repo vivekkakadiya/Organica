@@ -13,9 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.management.relation.RoleNotFoundException;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
@@ -47,6 +45,8 @@ public class CartServiceImpl implements CartService {
         int productId=cartHelp.getProductId();
         int quantity= cartHelp.getQuantity();
         int userId= cartHelp.getUserId();
+        int total=0;
+        AtomicReference<Integer> totalAmount =new AtomicReference<>(0);
 
         User user= this.userRepo.findById(userId).orElseThrow();
 
@@ -65,16 +65,24 @@ public class CartServiceImpl implements CartService {
             Cart cart1=new Cart();
             cart.setUser(user);
 
+            int totalAmount2=0;
+
+
+
             CartDetalis cartDetalis1= new CartDetalis();
             cartDetalis1.setQuantity(quantity);
-            cartDetalis.setProducts(product);
-            cartDetalis.setAmount((int) (product.getPrice()*quantity));
+            cartDetalis1.setProducts(product);
+            cartDetalis1.setAmount((int) (product.getPrice()*quantity));
+            totalAmount2= cartDetalis1.getAmount();
 
 
             List<CartDetalis> pro=cart.getCartDetalis();
             pro.add(cartDetalis1);
             cart1.setCartDetalis(pro);
+            cart1.setTotalAmount(totalAmount2);
             cartDetalis1.setCart(cart1);
+
+
 
             return this.modelMapper.map(cart1,CartDto.class);
 
@@ -83,6 +91,7 @@ public class CartServiceImpl implements CartService {
         }
 
         cartDetalis.setCart(cart);
+
 
         List<CartDetalis> list=cart.getCartDetalis();
 
@@ -94,6 +103,8 @@ public class CartServiceImpl implements CartService {
                 i.setAmount((int) (i.getQuantity() * product.getPrice()));
                 flag.set(true);
             }
+            totalAmount.set(totalP(i.getAmount(),totalAmount.get()));
+            
             return i;
         }).collect(Collectors.toList());
 
@@ -108,6 +119,8 @@ public class CartServiceImpl implements CartService {
 
         }
         cart.setCartDetalis(list);
+        cart.setTotalAmount(totalAmount.get());
+        System.out.println(cart.getTotalAmount());
         Cart save = this.cartRepo.save(cart);
         return this.modelMapper.map(save,CartDto.class);
     }
@@ -124,5 +137,11 @@ public class CartServiceImpl implements CartService {
     @Override
     public CartDto DeleteCart(Integer Userid) {
         return null;
+    }
+
+
+    public int totalP(int t1, int total){
+        System.out.println(t1+"  "+total);
+        return total+t1;
     }
 }
