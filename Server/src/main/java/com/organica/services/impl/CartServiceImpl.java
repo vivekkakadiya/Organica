@@ -5,6 +5,7 @@ import com.organica.entities.CartDetalis;
 import com.organica.entities.Product;
 import com.organica.entities.User;
 import com.organica.payload.*;
+import com.organica.repositories.CartDetailsRepo;
 import com.organica.repositories.CartRepo;
 import com.organica.repositories.ProductRepo;
 import com.organica.repositories.UserRepo;
@@ -13,9 +14,13 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
+import java.util.zip.DataFormatException;
+import java.util.zip.Inflater;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -28,6 +33,9 @@ public class CartServiceImpl implements CartService {
 
     @Autowired
     private UserRepo userRepo;
+
+    @Autowired
+    private CartDetailsRepo cartDetailsRepo;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -82,7 +90,10 @@ public class CartServiceImpl implements CartService {
             cart1.setTotalAmount(totalAmount2);
             cartDetalis1.setCart(cart1);
 
-
+            for (CartDetalis i:pro ) {
+                Product p=i.getProducts();
+                p.setImg(decompressBytes(p.getImg()));
+            }
 
             return this.modelMapper.map(cart1,CartDto.class);
 
@@ -107,6 +118,10 @@ public class CartServiceImpl implements CartService {
             
             return i;
         }).collect(Collectors.toList());
+        for (CartDetalis i:list ) {
+            Product p=i.getProducts();
+            p.setImg(decompressBytes(p.getImg()));
+        }
 
         if (flag.get()){
             list.clear();
@@ -115,6 +130,7 @@ public class CartServiceImpl implements CartService {
         }else {
 
             cartDetalis.setCart(cart);
+            totalAmount.set((int) (quantity*product.getPrice()));
             list.add(cartDetalis);
 
         }
@@ -131,7 +147,36 @@ public class CartServiceImpl implements CartService {
         Cart byUser = this.cartRepo.findByUser(user);
 
 
+        //img convert
+        List<CartDetalis> cartDetalis = byUser.getCartDetalis();
+        for (CartDetalis i:cartDetalis ) {
+            Product p=i.getProducts();
+            p.setImg(decompressBytes(p.getImg()));
+        }
+//        cartDetalis.stream().map(i->{
+//
+//           i.setProducts(changeImg(i.getProducts()));
+//            System.out.println(11);
+//           return i;
+//        });
+
+
+
         return this.modelMapper.map(byUser,CartDto.class);
+    }
+
+    @Override
+    public void RemoveById(Integer ProductId, Integer UserId) {
+        User user = this.userRepo.findById(UserId).orElseThrow();
+
+        Product product = this.productRepo.findById(ProductId).orElseThrow();
+        Cart cart =this.cartRepo.findByUser(user);
+
+        CartDetalis byProductsAndCart = this.cartDetailsRepo.findByProductsAndCart(product, cart);
+
+        this.cartDetailsRepo.delete(byProductsAndCart);
+
+
     }
 
     @Override
@@ -140,8 +185,42 @@ public class CartServiceImpl implements CartService {
     }
 
 
+
+
+
+
+
+
+
+
+    public Product changeImg(Product product){
+
+        product.setImg(decompressBytes(product.getImg()));
+
+        System.out.println("hello");
+        return product;
+    }
+
     public int totalP(int t1, int total){
-        System.out.println(t1+"  "+total);
         return total+t1;
+    }
+
+
+
+    public static byte[] decompressBytes(byte[] data) {
+        Inflater inflater = new Inflater();
+        inflater.setInput(data);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
+        byte[] buffer = new byte[1024];
+        try {
+            while (!inflater.finished()) {
+                int count = inflater.inflate(buffer);
+                outputStream.write(buffer, 0, count);
+            }
+            outputStream.close();
+        } catch (IOException ioe) {
+        } catch (DataFormatException e) {
+        }
+        return outputStream.toByteArray();
     }
 }

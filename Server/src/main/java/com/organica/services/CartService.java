@@ -16,6 +16,10 @@ public interface CartService {
     //Get
     CartDto GetCart(Integer Userid);
 
+    //delete product
+
+    void RemoveById(Integer ProductId,Integer UserId);
+
     //delete
     CartDto DeleteCart(Integer Userid);
 

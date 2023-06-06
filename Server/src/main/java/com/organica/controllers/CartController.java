@@ -2,6 +2,7 @@ package com.organica.controllers;
 
 
 import com.organica.entities.Cart;
+import com.organica.payload.ApiResponse;
 import com.organica.payload.CartDto;
 import com.organica.payload.CartHelp;
 import com.organica.payload.UserDto;
@@ -11,7 +12,10 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static org.apache.coyote.http11.Constants.a;
+
 @RestController
+@CrossOrigin
 @RequestMapping("/cart")
 public class CartController {
 
@@ -21,9 +25,7 @@ public class CartController {
 
     @PostMapping("/addproduct")
     public ResponseEntity<CartDto> addProduct(@RequestBody CartHelp cartHelp){
-//        System.out.println(cartHelp.getProductId());
         CartDto cartDto = this.cartService.addProductToCart(cartHelp);
-
         return new ResponseEntity<>(cartDto, HttpStatusCode.valueOf(200));
     }
 
@@ -33,5 +35,14 @@ public class CartController {
         CartDto cartDto = this.cartService.GetCart(userid);
 
         return new ResponseEntity<>(cartDto, HttpStatusCode.valueOf(200));
+    }
+
+
+    @DeleteMapping("/user/{userid}/product/{productid}")
+    public ResponseEntity<ApiResponse> DeleteItem(@PathVariable Integer userid,@PathVariable Integer productid){
+
+        this.cartService.RemoveById(productid,userid);
+
+        return new ResponseEntity<>(new ApiResponse("remove"),HttpStatusCode.valueOf(200));
     }
 }
