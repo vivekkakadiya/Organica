@@ -90,12 +90,20 @@ public class CartServiceImpl implements CartService {
             cart1.setTotalAmount(totalAmount2);
             cartDetalis1.setCart(cart1);
 
-            for (CartDetalis i:pro ) {
-                Product p=i.getProducts();
+//            for (CartDetalis i:pro ) {
+//                Product p=i.getProducts();
+//                p.setImg(decompressBytes(p.getImg()));
+//            }
+            CartDto map = this.modelMapper.map(cart1, CartDto.class);
+            List<CartDetailDto> cartDetalis2 = map.getCartDetalis();
+
+
+            for (CartDetailDto i:cartDetalis2 ) {
+                ProductDto p=i.getProducts();
                 p.setImg(decompressBytes(p.getImg()));
             }
-
-            return this.modelMapper.map(cart1,CartDto.class);
+            map.setCartDetalis(cartDetalis2);
+            return map;
 
 
 
@@ -118,10 +126,6 @@ public class CartServiceImpl implements CartService {
             
             return i;
         }).collect(Collectors.toList());
-        for (CartDetalis i:list ) {
-            Product p=i.getProducts();
-            p.setImg(decompressBytes(p.getImg()));
-        }
 
         if (flag.get()){
             list.clear();
@@ -138,7 +142,17 @@ public class CartServiceImpl implements CartService {
         cart.setTotalAmount(totalAmount.get());
         System.out.println(cart.getTotalAmount());
         Cart save = this.cartRepo.save(cart);
-        return this.modelMapper.map(save,CartDto.class);
+
+        CartDto map = this.modelMapper.map(save, CartDto.class);
+        List<CartDetailDto> cartDetalis1 = map.getCartDetalis();
+
+
+        for (CartDetailDto i:cartDetalis1 ) {
+            ProductDto p=i.getProducts();
+            p.setImg(decompressBytes(p.getImg()));
+        }
+        map.setCartDetalis(cartDetalis1);
+        return map;
     }
 
     @Override
@@ -147,22 +161,18 @@ public class CartServiceImpl implements CartService {
         Cart byUser = this.cartRepo.findByUser(user);
 
 
-        //img convert
-        List<CartDetalis> cartDetalis = byUser.getCartDetalis();
-        for (CartDetalis i:cartDetalis ) {
-            Product p=i.getProducts();
+
+    // img decompressBytes
+        CartDto map = this.modelMapper.map(byUser, CartDto.class);
+        List<CartDetailDto> cartDetalis1 = map.getCartDetalis();
+
+
+        for (CartDetailDto i:cartDetalis1 ) {
+            ProductDto p=i.getProducts();
             p.setImg(decompressBytes(p.getImg()));
         }
-//        cartDetalis.stream().map(i->{
-//
-//           i.setProducts(changeImg(i.getProducts()));
-//            System.out.println(11);
-//           return i;
-//        });
-
-
-
-        return this.modelMapper.map(byUser,CartDto.class);
+        map.setCartDetalis(cartDetalis1);
+        return map;
     }
 
     @Override
@@ -173,6 +183,9 @@ public class CartServiceImpl implements CartService {
         Cart cart =this.cartRepo.findByUser(user);
 
         CartDetalis byProductsAndCart = this.cartDetailsRepo.findByProductsAndCart(product, cart);
+        int amount = byProductsAndCart.getAmount();
+        cart.setTotalAmount(cart.getTotalAmount()-amount);
+        this.cartRepo.save(cart);
 
         this.cartDetailsRepo.delete(byProductsAndCart);
 

@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 
-export const Items = ({ prop }) => {
+export const Items = ({ prop ,setLoading}) => {
   const [quantity, setQuantity] = useState(prop.quantity);
-  const [item, setItem] = useState(prop.products);
-  const updateQuantity = async () => {
+  console.log("out : "+quantity);
+  
+  const [item2, setItem2] = useState(prop.products);
+  // console.log(quantity);
+  const updateQuantity = async (q) => {
+    console.log("in : "+q);
+
     const res = await fetch(
       `http://localhost:9090/cart/addproduct`,
       {
@@ -14,15 +19,14 @@ export const Items = ({ prop }) => {
         body: JSON.stringify({
           userId: 1,
           productId: prop.products.productid,
-          quantity: quantity,
+          quantity: q,
         }),
-    }
-    );
-    // if (loading) {
-    //     setLoading(false);
-    // }else{
-    //     setLoading(true);
-    // }
+      }
+
+      );
+    const temp= await res.json();
+    // console.log(temp);
+    setLoading(temp);
     
     // setQuantity(temp.cartDetalis.quantity);
 };
@@ -35,15 +39,34 @@ export const Items = ({ prop }) => {
   const handleMinus = () => {
     if (quantity > 1) {
       setQuantity(quantity - 1);
+      updateQuantity(quantity - 1);
     }
-    updateQuantity();
   };
   const handlePlus = () => {
     if (quantity > 0) {
+      
       setQuantity(quantity + 1);
+      updateQuantity(quantity + 1);
     }
-    updateQuantity();
   };
+  
+  const handleRemove = async () =>{
+    //call delete api without body
+    const res = await  fetch(
+      `http://localhost:9090/cart/user/1/product/${prop.products.productid}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+
+      );
+      const t=await res.json();
+      setLoading(t);
+
+    
+  }
 
   return (
     <>
@@ -51,7 +74,7 @@ export const Items = ({ prop }) => {
         <th scope="row" className="border-0">
           <div className="p-2">
             <img
-              src={`data:image/png;base64,${item.img}`}
+              src={`data:image/png;base64,${item2.img}`}
               alt=""
               width={70}
               className="img-fluid rounded shadow-sm d-inline "
@@ -60,7 +83,7 @@ export const Items = ({ prop }) => {
               <h5 className="mb-0">
                 {" "}
                 <a href="#" className="text-dark d-inline-block align-middle">
-                  {item.productName}
+                  {item2.productName}
                 </a>
               </h5>
               <span className="text-muted font-weight-normal font-italic d-block">
@@ -70,7 +93,7 @@ export const Items = ({ prop }) => {
           </div>
         </th>
         <td className="border-0 align-middle">
-          <strong>{item.price}</strong>
+          <strong>{item2.price}</strong>
         </td>
         <td className="border-0 align-middle">
           <div className="qty2 display-flex">
@@ -97,7 +120,7 @@ export const Items = ({ prop }) => {
                             <div className="qtyplus">+</div> */}
         </td>
         <td className="border-0 align-middle">
-          <a href="#" className="text-dark">
+          <a  className="text-dark" onClick={()=>handleRemove()}>
             <i className="fa fa-trash" />
           </a>
         </td>

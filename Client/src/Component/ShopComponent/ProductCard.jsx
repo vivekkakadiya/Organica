@@ -8,6 +8,7 @@ export const ProductCard = (props) => {
   };
 
   const handalCart = async () => {
+    console.log("cart");
     const res = await fetch("http://localhost:9090/cart/addproduct", {
       method: "POST",
       headers: {
@@ -69,7 +70,7 @@ export const ProductCard = (props) => {
               {props.price}
             </data>
           </div>
-          <button className="btn btn-primary" onClick={() => handalCart}>
+          <button className="btn btn-primary" onClick={() => handalCart()}>
             Add to Cart
           </button>
         </div>
