@@ -5,6 +5,31 @@ import { Header } from "../Component/Header";
 export const Cart = () => {
   useEffect(() => { window.scrollTo(0, 0) }, []);
 
+  
+      const [data, setdata] = useState();
+      const[item,setItem]=useState([]);
+      const [loading, setLoading] = useState(9);
+      const [totalAmount, setTotalAmount] = useState(0);
+
+
+      useEffect(() => {
+        const fatchCart = async () => {
+          // get cart item
+          const res = await fetch("http://localhost:9090/cart/1", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer "+sessionStorage.getItem("token")
+            },
+          });
+          const data = await res.json();
+          setTotalAmount(data.totalAmount);
+          setItem(data.cartDetalis);
+        };
+        fatchCart();
+      }, [loading]);
+      
+     
   return (
     <>
       <Header />
@@ -69,26 +94,16 @@ export const Cart = () => {
                               <form action="#" className="display-flex">
                                 <button className="qtyminus1">-</button>
 
-                                <input
-                                  type="text"
-                                  name="quantity"
-                                  defaultValue={1}
-                                  className="qty1"
-                                />
-                                <button className="qtyplus1">+</button>
-                              </form>
-                            </div>
-                            {/* <div className="qtyminus">-</div>
-                            <i class="fa-light fa-plus"/>
-                            <strong>3</strong>
-                            <div className="qtyplus">+</div> */}
-                          </td>
-                          <td className="border-0 align-middle">
-                            <a href="#" className="text-dark">
-                              <i className="fa fa-trash" />
-                            </a>
-                          </td>
-                        </tr>
+                    {item ?    item.map((elem,index) => {
+                          return (
+                            <>
+
+                              <Items
+                                key={index} prop={elem} setLoading={setLoading} />
+                              </>
+                          )})
+                        :<></>}
+
                       </tbody>
                     </table>
                   </div>

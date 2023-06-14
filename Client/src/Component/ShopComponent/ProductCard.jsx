@@ -1,13 +1,32 @@
-import React from 'react'
-import {useNavigate} from "react-router-dom"
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const ProductCard = (props) => {
-    const navigate = useNavigate();
-    const handalClick = (id) => {
-        console.log(id);
-        navigate(`/product/${id}`);
-        
-      };
+  const navigate = useNavigate();
+  const handalClick = (id) => {
+    navigate(`/product/${id}`);
+  };
+
+  const handalCart = async () => {
+    if(sessionStorage.getItem("token")===null){
+      navigate("/login");
+    }
+    const res = await fetch("http://localhost:9090/cart/addproduct", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + sessionStorage.getItem("token")
+      },
+      body: JSON.stringify({
+
+        productId: props.id,
+        quantity: 1,
+      }),
+    });
+
+    const data = await res.json();
+    console.log(data);
+  };
   return (
    <>
      <li>

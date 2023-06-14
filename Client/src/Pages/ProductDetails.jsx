@@ -4,7 +4,59 @@ import { Footer } from '../Component/Footer'
 
 export const ProductDetails = () => {
   
-  useEffect(() => { window.scrollTo(0, 0) }, []);
+  const [data, setData] = useState([]);
+  const [quantity, setQuantity] = useState(1);
+  const {id}=useParams();
+
+  const handleQuantity = (e) => {
+    setQuantity(e.target.value);
+  }
+  const handleMinus = () => {
+    if (quantity >1) {
+      setQuantity(quantity - 1);
+    }
+  }
+  const handlePlus = () => {
+    if (quantity > 0) {
+      setQuantity(quantity + 1);
+    }
+  }
+
+  const handleCart = async (q) => {
+
+    const res = await fetch(
+      `http://localhost:9090/cart/addproduct`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: 1,
+          productId: id,
+          quantity: q,
+        }),
+      }
+
+      );
+    const temp= await res.json();
+};
+  useEffect(() => {
+    window.scrollTo(0, 0) 
+
+    const fatchData = async () => {
+      const response = await fetch(`http://localhost:9090/product/${id}`, {
+        headers: {
+        "Authorization": "Bearer "+sessionStorage.getItem("token")
+        },
+      });
+
+      const res = await response.json();
+      setData(res);
+    }
+    fatchData();
+  }, []);
+
   
   return (
     <>
@@ -118,7 +170,7 @@ export const ProductDetails = () => {
                 />
                 <div className="qtyplus">+</div>
               </form>
-              <a href="#" className="round-black-btn">
+              <a href="#" className="round-black-btn" onClick={(quantity)=>handleCart(quantity)}>
                 Add to Cart
               </a>
             </div>
