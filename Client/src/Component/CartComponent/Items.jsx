@@ -2,12 +2,10 @@ import React, { useState } from "react";
 
 export const Items = ({ prop ,setLoading}) => {
   const [quantity, setQuantity] = useState(prop.quantity);
-  console.log("out : "+quantity);
   
   const [item2, setItem2] = useState(prop.products);
   // console.log(quantity);
   const updateQuantity = async (q) => {
-    console.log("in : "+q);
 
     const res = await fetch(
       `http://localhost:9090/cart/addproduct`,
@@ -15,6 +13,7 @@ export const Items = ({ prop ,setLoading}) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": "Bearer " + sessionStorage.getItem("token")
         },
         body: JSON.stringify({
           userId: 1,
@@ -53,7 +52,7 @@ export const Items = ({ prop ,setLoading}) => {
   const handleRemove = async () =>{
     //call delete api without body
     const res = await  fetch(
-      `http://localhost:9090/cart/user/1/product/${prop.products.productid}`,
+      `http://localhost:9090/cart/product/${prop.products.productid}`,
       {
         method: "DELETE",
         headers: {

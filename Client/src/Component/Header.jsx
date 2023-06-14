@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import * as Scroll from "react-scroll";
+import * as Scroll from 'react-scroll';
 
 // Or Access Link,Element,etc as follows
 let Link = Scroll.Link;
@@ -9,7 +9,10 @@ let Link = Scroll.Link;
 
 
 export const Header = () => {
-  const [islogin, setislogin] = useState(true);
+  
+
+  const [islogin, setislogin] = useState(sessionStorage.getItem("token"));
+  
   const navigate = useNavigate();
   const handalRedirect = () => {
     if (islogin) {
@@ -17,6 +20,17 @@ export const Header = () => {
    
     } else {
       navigate(`/login`);
+
+    }
+  };
+
+  const handalLogout = () => {
+    sessionStorage.removeItem("token");
+    setislogin(false)
+    navigate(`/`);
+  };
+
+  
 
     }
   };
@@ -132,7 +146,8 @@ export const Header = () => {
                 </button>
               </div>
             </div>
-            {islogin ? (
+            {/* //whishlist */}
+            {/* {islogin ? (
               <button
                 className="header-action-btn"
                 aria-label="Open whishlist"
@@ -145,8 +160,8 @@ export const Header = () => {
               </button>
             ) : (
               <></>
-            )}
-            {islogin ? (
+            )} */}
+            {!islogin ? (
               <button
                 className="header-action-btn"
                 aria-label="Open shopping cart"
@@ -169,8 +184,16 @@ export const Header = () => {
                   </data>
                 </button>
               </>
+              
             )}
-            
+           {islogin ? <button
+                  className="header-action-btn"
+                  aria-label="Open shopping cart"
+                  data-panel-btn="cart"
+                  onClick={() => handalLogout()}
+                >
+                 <ion-icon name="log-out-outline"></ion-icon>
+                </button>:<></>}
           </div>
         </div>
       </div>

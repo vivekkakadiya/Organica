@@ -23,17 +23,34 @@ export const ProductDetails = () => {
     }
   }
 
-  const handleCart = () => {
+  const handleCart = async (q) => {
 
-    //handle cart at backend
-   
-  }
-  console.log(quantity);
+    const res = await fetch(
+      `http://localhost:9090/cart/addproduct`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: 1,
+          productId: id,
+          quantity: q,
+        }),
+      }
+
+      );
+    const temp= await res.json();
+};
   useEffect(() => {
     window.scrollTo(0, 0) 
 
     const fatchData = async () => {
-      const response = await fetch(`http://localhost:9090/product/${id}`);
+      const response = await fetch(`http://localhost:9090/product/${id}`, {
+        headers: {
+        "Authorization": "Bearer "+sessionStorage.getItem("token")
+        },
+      });
 
       const res = await response.json();
       setData(res);
@@ -145,7 +162,7 @@ export const ProductDetails = () => {
                 />
                 <div className="qtyplus" onClick={handlePlus}>+</div>
               </form>
-              <a href="#" className="round-black-btn" onClick={handleCart}>
+              <a href="#" className="round-black-btn" onClick={(quantity)=>handleCart(quantity)}>
                 Add to Cart
               </a>
             </div>

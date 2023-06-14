@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const ProductCard = (props) => {
@@ -8,14 +8,17 @@ export const ProductCard = (props) => {
   };
 
   const handalCart = async () => {
-    console.log("cart");
+    if(sessionStorage.getItem("token")===null){
+      navigate("/login");
+    }
     const res = await fetch("http://localhost:9090/cart/addproduct", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": "Bearer " + sessionStorage.getItem("token")
       },
       body: JSON.stringify({
-        userId: 1,
+
         productId: props.id,
         quantity: 1,
       }),

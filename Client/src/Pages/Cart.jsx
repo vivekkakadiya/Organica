@@ -16,7 +16,13 @@ export const Cart = () => {
       useEffect(() => {
         const fatchCart = async () => {
           // get cart item
-          const res = await fetch("http://localhost:9090/cart/1");
+          const res = await fetch("http://localhost:9090/cart/1", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer "+sessionStorage.getItem("token")
+            },
+          });
           const data = await res.json();
           setTotalAmount(data.totalAmount);
           setItem(data.cartDetalis);
@@ -66,6 +72,16 @@ export const Cart = () => {
                               </>
                           )})
                         }
+
+                    {item ?    item.map((elem,index) => {
+                          return (
+                            <>
+
+                              <Items
+                                key={index} prop={elem} setLoading={setLoading} />
+                              </>
+                          )})
+                        :<></>}
 
                       </tbody>
                     </table>
