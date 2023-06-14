@@ -23,7 +23,7 @@ public class CartDetailsServiceImpl implements CartDetailsService{
     public CartDetailDto addProduct(CartHelp cartHelp) {
         int productId=cartHelp.getProductId();
         int quantity= cartHelp.getQuantity();
-        int userId= cartHelp.getUserId();
+        String userEmail= cartHelp.getUserEmail();
 
 
 

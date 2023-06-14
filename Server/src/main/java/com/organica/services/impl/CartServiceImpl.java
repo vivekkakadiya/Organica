@@ -52,11 +52,11 @@ public class CartServiceImpl implements CartService {
 
         int productId=cartHelp.getProductId();
         int quantity= cartHelp.getQuantity();
-        int userId= cartHelp.getUserId();
+        String userEmail= cartHelp.getUserEmail();
         int total=0;
         AtomicReference<Integer> totalAmount =new AtomicReference<>(0);
 
-        User user= this.userRepo.findById(userId).orElseThrow();
+        User user= this.userRepo.findByEmail(userEmail);
 
         Product product=this.productRepo.findById(productId).orElseThrow();
 
@@ -156,8 +156,8 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public CartDto GetCart(Integer Userid) {
-        User user = this.userRepo.findById(Userid).orElseThrow();
+    public CartDto GetCart(String userEmail) {
+        User user = this.userRepo.findByEmail(userEmail);
         Cart byUser = this.cartRepo.findByUser(user);
 
 
@@ -176,8 +176,8 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void RemoveById(Integer ProductId, Integer UserId) {
-        User user = this.userRepo.findById(UserId).orElseThrow();
+    public void RemoveById(Integer ProductId, String userEmail) {
+        User user = this.userRepo.findByEmail(userEmail);
 
         Product product = this.productRepo.findById(ProductId).orElseThrow();
         Cart cart =this.cartRepo.findByUser(user);
@@ -190,11 +190,6 @@ public class CartServiceImpl implements CartService {
         this.cartDetailsRepo.delete(byProductsAndCart);
 
 
-    }
-
-    @Override
-    public CartDto DeleteCart(Integer Userid) {
-        return null;
     }
 
 

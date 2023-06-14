@@ -33,7 +33,7 @@ public class User implements UserDetails {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date date;
 
-    @Enumerated(EnumType.STRING)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<Role> role;
 
     @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
@@ -44,7 +44,7 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = role.stream()
-                .map(role -> new SimpleGrantedAuthority(role.name()))
+                .map(role -> new SimpleGrantedAuthority("ROLE_"+role.getRole()))
                 .collect(Collectors.toList());
         return authorities;
     }

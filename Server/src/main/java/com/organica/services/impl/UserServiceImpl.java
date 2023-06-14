@@ -1,7 +1,9 @@
 package com.organica.services.impl;
 
 import com.organica.config.JwtService;
+import com.organica.entities.Cart;
 import com.organica.entities.Role;
+import com.organica.entities.TotalRoles;
 import com.organica.entities.User;
 import com.organica.payload.SingIn;
 import com.organica.payload.UserDto;
@@ -43,9 +45,12 @@ public class UserServiceImpl implements UserService {
     public UserDto CreateUser(UserDto userDto) {
         User user= this.modelMapper.map(userDto, User.class);
         List<Role> list= new ArrayList<>();
-                list.add(Role.ADMIN);
+                list.add(new Role(TotalRoles.ADMIN.name()));
         user.setRole(list);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        Cart cart= new Cart();
+        cart.setUser(user);
+        user.setCart(cart);
 
         this.userRepo.save(user);
         return this.modelMapper.map(user,UserDto.class);

@@ -25,4 +25,7 @@ public class Product {
     @Column(length = 65555)
     private byte[] Img;
 
+    @OneToMany(mappedBy = "products")
+    private List<CartDetalis> list;
+
 }
