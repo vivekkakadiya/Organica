@@ -1,8 +1,23 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
 
 export const ProductCard = (props) => {
   const navigate = useNavigate();
+
+
+  const onToast = () => {
+    toast.success('Added to cart!', {
+      position: "bottom-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      });
+  }
   const handalClick = (id) => {
     navigate(`/product/${id}`);
   };
@@ -23,9 +38,13 @@ export const ProductCard = (props) => {
         quantity: 1,
       }),
     });
-
-    const data = await res.json();
-    console.log(data);
+    if(res.status===200){
+      onToast();
+      const data = await res.json();
+    }else{
+      navigate("/login");
+    }
+    
   };
   return (
     <>
@@ -78,6 +97,7 @@ export const ProductCard = (props) => {
           </button>
         </div>
       </li>
+
     </>
   );
 };

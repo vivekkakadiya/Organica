@@ -5,7 +5,7 @@ import { Items } from "../Component/CartComponent/Items";
 
 export const Cart = () => {
   useEffect(() => { window.scrollTo(0, 0) }, []);
-
+  // const razorpay=useRazorpay();
   
       const [data, setdata] = useState();
       const[item,setItem]=useState([]);
@@ -29,8 +29,69 @@ export const Cart = () => {
         };
         fatchCart();
       }, [loading]);
+
+      const createOrder = async (e) => {
+        const res = await fetch(`http://localhost:9090/payment/${totalAmount}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            
+          },
+        });
+        const da = await res.json();
+        setdata(da);
+        return da;
+      }
+
+
+      const handlePayment = async () => {
+        const order = await createOrder();
+        const options = {
+          key: order.key,
+          amount: order.amount, 
+          currency: order.currency,
+          name: "userName",
+          description: "Test Transaction",
+          image: "https://example.com/your_logo",
+          order_id: order.orderId, 
+          handler: function (response) {
+            console.log(response);
+            alert(response.razorpay_payment_id);
+            alert(response.razorpay_order_id);
+            alert(response.razorpay_signature);
+          },
+          prefill: {
+            name: "vivek",
+            email: "vivek@gmail.com",
+            contact: 7405999619,
+          },
+          notes: {
+            address: "ABC, Delhi",
+          },
+          theme: {
+            color: "#3399cc",
+          },
+        };
       
+        const rzp1 = new window.Razorpay(options);;
+        rzp1.on("payment.failed", function (response) {
+          alert(response.error.code);
+          alert(response.error.description);
+          alert(response.error.source);
+          alert(response.error.step);
+          alert(response.error.reason);
+          alert(response.error.metadata.order_id);
+          alert(response.error.metadata.payment_id);
+        });
+      
+        rzp1.open();
+      };
      
+
+
+
+
+
   return (
     <>
       <Header />
@@ -63,15 +124,6 @@ export const Cart = () => {
                       </thead>
                       <tbody>
 
-                        {item.map((elem,index) => {
-                          return (
-                            <>
-
-                              <Items
-                                key={index} prop={elem} setLoading={setLoading} />
-                              </>
-                          )})
-                        }
 
                     {item ?    item.map((elem,index) => {
                           return (
@@ -120,12 +172,13 @@ export const Cart = () => {
                         <h3 className="font-weight-bold">Rs {totalAmount +100}</h3>
                       </li>
                     </ul>
-                    <a
-                      href="#"
+                    <button
+                      href=""
                       className="btn btn-dark rounded-pill py-2 btn-block"
+                      onClick={(e) => handlePayment(e)}
                     >
                       Procceed to checkout
-                    </a>
+                    </button>
                   </div>
                 </div>
               </div>

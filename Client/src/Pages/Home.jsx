@@ -11,6 +11,7 @@ import { Feedback } from '../Component/HomeComponent/Feedback'
 import { Blog } from '../Component/HomeComponent/Blog'
 import { NewsLetter } from '../Component/HomeComponent/NewsLetter'
 import { Footer } from '../Component/Footer'
+import { ToastContainer} from 'react-toastify';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -243,6 +244,8 @@ export const Home = () => {
   {/* 
     - ionicon link
   */}
+      <ToastContainer />
+
 </>
 
   )

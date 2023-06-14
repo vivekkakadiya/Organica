@@ -134,7 +134,7 @@ public class CartServiceImpl implements CartService {
         }else {
 
             cartDetalis.setCart(cart);
-            totalAmount.set((int) (quantity*product.getPrice()));
+            totalAmount.set(totalAmount.get()+(int) (quantity*product.getPrice()));
             list.add(cartDetalis);
 
         }

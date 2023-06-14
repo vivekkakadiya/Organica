@@ -1,2 +1,9 @@
-package com.organica.services;public class PaymentService {
+package com.organica.services;
+
+import com.organica.payload.PaymentDetails;
+
+public interface PaymentService {
+
+    public PaymentDetails CreateOrder(Double amount);
+
 }

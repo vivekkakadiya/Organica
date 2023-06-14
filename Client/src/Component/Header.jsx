@@ -32,8 +32,7 @@ export const Header = () => {
 
   
 
-    }
-  };
+    
 
 
   return (

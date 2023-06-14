@@ -2,10 +2,35 @@ import React, { useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import { Footer } from '../Component/Footer'
 import { Header } from '../Component/Header'
+import { toast } from 'react-toastify';
 
 export const Login = () => {
   const navigate = useNavigate();
-
+  const onToast = (s) => {
+    if ('Login Successfull!!' === s) {
+      toast.success(s, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+    }else{
+      toast.error(s, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+    }
+  }
 
 
   const [user, setUser] = useState({
@@ -28,7 +53,13 @@ export const Login = () => {
     
     const data = await res.json();
     sessionStorage.setItem("token", data.jwt);
-    navigate(`/`);
+    if(res.status===200){
+      onToast('Login Successfull!!');
+      navigate(`/`);
+    }else{
+      onToast("Invalid Credentials");
+    }
+
   };
 
   return (

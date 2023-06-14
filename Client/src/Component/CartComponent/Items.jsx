@@ -1,9 +1,23 @@
 import React, { useState } from "react";
+import { ToastContainer, toast } from 'react-toastify';
 
 export const Items = ({ prop ,setLoading}) => {
   const [quantity, setQuantity] = useState(prop.quantity);
   
   const [item2, setItem2] = useState(prop.products);
+
+  const onToast = () => {
+    toast.success('Item Removed!!', {
+      position: "bottom-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      });
+  }
   // console.log(quantity);
   const updateQuantity = async (q) => {
 
@@ -57,12 +71,14 @@ export const Items = ({ prop ,setLoading}) => {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": "Bearer " + sessionStorage.getItem("token")
         },
       }
 
       );
       const t=await res.json();
       setLoading(t);
+      onToast();
 
     
   }
