@@ -1,0 +1,5 @@
+# Created at 2023-06-16T16:03:02.064
+Boot Manifest-JAR contains absolute paths in classpath 'D:\java\Organica\Server\target\test-classes'
+Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+'other' has different root
+
