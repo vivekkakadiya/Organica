@@ -1,8 +1,11 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
+import axiosFetch from "../../Helper/Axios";
 
 export const Items = ({ prop ,setLoading}) => {
   const [quantity, setQuantity] = useState(prop.quantity);
+  const[token,setToken]=useState(sessionStorage.getItem("token"));
   
   const [item2, setItem2] = useState(prop.products);
 
@@ -20,17 +23,23 @@ export const Items = ({ prop ,setLoading}) => {
   }
   // console.log(quantity);
   const updateQuantity = async (q) => {
-
+  // const res=axiosFetch({
+  //   "url":"cart/addproduct",
+  //   "method":"POST",
+  //   "data":JSON.stringify({
+  //     productId: prop.products.productid,
+  //     quantity: q,
+  //   })
+  // })
     const res = await fetch(
       `http://localhost:9090/cart/addproduct`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer " + sessionStorage.getItem("token")
+          "Authorization": "Bearer "+token
         },
         body: JSON.stringify({
-          userId: 1,
           productId: prop.products.productid,
           quantity: q,
         }),
@@ -71,7 +80,7 @@ export const Items = ({ prop ,setLoading}) => {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer " + sessionStorage.getItem("token")
+          "Authorization": "Bearer "+token
         },
       }
 

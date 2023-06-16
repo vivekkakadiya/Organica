@@ -55,7 +55,7 @@ export const Login = () => {
     sessionStorage.setItem("token", data.jwt);
     if(res.status===200){
       onToast('Login Successfull!!');
-      navigate(`/`);
+      window.location.href = "/";
     }else{
       onToast("Invalid Credentials");
     }

@@ -26,9 +26,11 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
          http.csrf().disable()
                  .authorizeHttpRequests()
-                .requestMatchers("/**")
-                .permitAll()
-//                 .requestMatchers("/product/").hasRole(ADMIN.name())
+
+                 .requestMatchers("/**")
+                 .permitAll()
+//                .requestMatchers("/product/**").hasRole(ADMIN.name())
+//                 .requestMatchers("/cart/**").hasRole(ADMIN.name())
                 .anyRequest()
                 .authenticated()
                  .and()

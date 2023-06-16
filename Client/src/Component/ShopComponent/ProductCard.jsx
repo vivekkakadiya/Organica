@@ -5,6 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 export const ProductCard = (props) => {
   const navigate = useNavigate();
 
+  const[token,setToken]=useState(sessionStorage.getItem("token"));
 
   const onToast = () => {
     toast.success('Added to cart!', {
@@ -30,7 +31,7 @@ export const ProductCard = (props) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "Bearer " + sessionStorage.getItem("token")
+        "Authorization": "Bearer " + token
       },
       body: JSON.stringify({
 

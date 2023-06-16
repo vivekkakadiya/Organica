@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Header } from "../Component/Header";
+import { toast } from 'react-toastify';
 
 export const Singup = () => {
   const [user, setUser] = useState({
@@ -8,11 +9,36 @@ export const Singup = () => {
     password: "",
     confirmPassword: "",
   });
-  
+  const onToast = (s) => {
+    if ('Login Successfull!!' === s) {
+      toast.success(s, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+    }else{
+      toast.error(s, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+    }
+  }
 
   const handleSinup = async (e) => {
+    window.location.href = "/login";
     e.preventDefault();
-    if (user.password == user.confirmPassword) {
+    if (user.password === user.confirmPassword) {
       const res = await fetch("http://localhost:9090/auth/singup", {
         method: "POST",
         headers: {
@@ -23,9 +49,20 @@ export const Singup = () => {
         }),
       });
       const data = await res.json();
+      if (res.status === 200) {
+        onToast("Singup Successfull!!")
+        setTimeout(() => {
+          window.location.href = "/login";
+        }, 2000);
+      } else {
+       
+          onToast("Something went wrong!!")
+      
+          
+      }
       console.log(data);
     }else{
-      //tost password not match
+      onToast("Password not match!!")
     }
         
   };

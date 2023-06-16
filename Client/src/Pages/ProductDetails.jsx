@@ -7,6 +7,8 @@ export const ProductDetails = () => {
   
   const [data, setData] = useState([]);
   const [quantity, setQuantity] = useState(1);
+  const[token,setToken]=useState(sessionStorage.getItem("token"));
+
   const {id}=useParams();
 
   const handleQuantity = (e) => {
@@ -31,6 +33,7 @@ export const ProductDetails = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
         },
         body: JSON.stringify({
           userId: 1,
@@ -46,11 +49,11 @@ export const ProductDetails = () => {
     window.scrollTo(0, 0) 
 
     const fatchData = async () => {
-      const response = await fetch(`http://localhost:9090/product/${id}`, {
-        headers: {
-        "Authorization": "Bearer "+sessionStorage.getItem("token")
-        },
-      });
+        const response = await fetch(`http://localhost:9090/product/${id}`, {
+          headers: {
+          "Authorization": "Bearer "+token
+          },
+        });
 
       const res = await response.json();
       setData(res);

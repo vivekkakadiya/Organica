@@ -19,10 +19,9 @@ public class PaymentServiceImpl implements PaymentService {
     public PaymentDetails CreateOrder(Double amount) {
         try{
             JSONObject jsonObject=new JSONObject();
-            jsonObject.put("amount",amount*100);
+            jsonObject.put("amount",amount*100.0);
             jsonObject.put("currency",CURRENCY);
-            jsonObject.put("amount",amount);
-
+            System.out.println(jsonObject);
 
         RazorpayClient razorpayClient=new RazorpayClient(KEY,SECRET_KEY);
 

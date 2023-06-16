@@ -11,31 +11,35 @@ export const Cart = () => {
       const[item,setItem]=useState([]);
       const [loading, setLoading] = useState(9);
       const [totalAmount, setTotalAmount] = useState(0);
+      const[token,setToken]=useState(sessionStorage.getItem("token"));
 
+
+      const fatchCart = async () => {
+        // get cart item
+        console.log(token);
+        const res = await fetch("http://localhost:9090/cart/1", {headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer "+token
+          },
+        });
+        const data = await res.json();
+        setTotalAmount(data.totalAmount);
+        setItem(data.cartDetalis);
+      };
 
       useEffect(() => {
-        const fatchCart = async () => {
-          // get cart item
-          const res = await fetch("http://localhost:9090/cart/1", {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": "Bearer "+sessionStorage.getItem("token")
-            },
-          });
-          const data = await res.json();
-          setTotalAmount(data.totalAmount);
-          setItem(data.cartDetalis);
-        };
         fatchCart();
+
       }, [loading]);
+
+      
 
       const createOrder = async (e) => {
         const res = await fetch(`http://localhost:9090/payment/${totalAmount}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            
+        "Authorization": "Bearer " + token
           },
         });
         const da = await res.json();
