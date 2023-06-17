@@ -17,7 +17,7 @@ services:
 
   backend:
     build:
-      context: ./server
+      context: ./Server
       dockerfile: Dockerfile
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/organica
@@ -32,7 +32,7 @@ services:
 
   frontend:
     build:
-      context: ./client
+      context: ./Client
       dockerfile: Dockerfile
     ports:
       - 3000:3000
