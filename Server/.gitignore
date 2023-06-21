@@ -3,7 +3,10 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-
+src/main/resources/application.properties
+src/main/resources/application.yml
+.idea/
+.vscode/
 ### STS ###
 .apt_generated
 .classpath
