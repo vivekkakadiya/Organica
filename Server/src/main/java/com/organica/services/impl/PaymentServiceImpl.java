@@ -5,13 +5,16 @@ import com.organica.services.PaymentService;
 import com.razorpay.Order;
 import com.razorpay.RazorpayClient;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PaymentServiceImpl implements PaymentService {
 
-    private final String KEY="rzp_test_EUYgqpwVUn0wDP";
-    private final String SECRET_KEY="lNNKB1lIXajXLNl8ktre66OW";
+    @Value("${razorpay.key_id}")
+    private String KEY;
+    @Value("${razorpay.key_secret}")
+    private String SECRET_KEY;
     private final String CURRENCY="INR";
 
 
