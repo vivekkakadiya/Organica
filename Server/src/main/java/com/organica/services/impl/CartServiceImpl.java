@@ -5,6 +5,7 @@ import com.organica.entities.CartDetalis;
 import com.organica.entities.Product;
 import com.organica.entities.User;
 import com.organica.payload.*;
+import com.organica.repositories.CartDetailsRepo;
 import com.organica.repositories.CartRepo;
 import com.organica.repositories.ProductRepo;
 import com.organica.repositories.UserRepo;
@@ -13,9 +14,13 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
+import java.util.zip.DataFormatException;
+import java.util.zip.Inflater;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -28,6 +33,9 @@ public class CartServiceImpl implements CartService {
 
     @Autowired
     private UserRepo userRepo;
+
+    @Autowired
+    private CartDetailsRepo cartDetailsRepo;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -44,11 +52,11 @@ public class CartServiceImpl implements CartService {
 
         int productId=cartHelp.getProductId();
         int quantity= cartHelp.getQuantity();
-        int userId= cartHelp.getUserId();
+        String userEmail= cartHelp.getUserEmail();
         int total=0;
         AtomicReference<Integer> totalAmount =new AtomicReference<>(0);
 
-        User user= this.userRepo.findById(userId).orElseThrow();
+        User user= this.userRepo.findByEmail(userEmail);
 
         Product product=this.productRepo.findById(productId).orElseThrow();
 
@@ -82,9 +90,20 @@ public class CartServiceImpl implements CartService {
             cart1.setTotalAmount(totalAmount2);
             cartDetalis1.setCart(cart1);
 
+//            for (CartDetalis i:pro ) {
+//                Product p=i.getProducts();
+//                p.setImg(decompressBytes(p.getImg()));
+//            }
+            CartDto map = this.modelMapper.map(cart1, CartDto.class);
+            List<CartDetailDto> cartDetalis2 = map.getCartDetalis();
 
 
-            return this.modelMapper.map(cart1,CartDto.class);
+            for (CartDetailDto i:cartDetalis2 ) {
+                ProductDto p=i.getProducts();
+                p.setImg(decompressBytes(p.getImg()));
+            }
+            map.setCartDetalis(cartDetalis2);
+            return map;
 
 
 
@@ -115,6 +134,7 @@ public class CartServiceImpl implements CartService {
         }else {
 
             cartDetalis.setCart(cart);
+            totalAmount.set(totalAmount.get()+(int) (quantity*product.getPrice()));
             list.add(cartDetalis);
 
         }
@@ -122,26 +142,93 @@ public class CartServiceImpl implements CartService {
         cart.setTotalAmount(totalAmount.get());
         System.out.println(cart.getTotalAmount());
         Cart save = this.cartRepo.save(cart);
-        return this.modelMapper.map(save,CartDto.class);
+
+        CartDto map = this.modelMapper.map(save, CartDto.class);
+        List<CartDetailDto> cartDetalis1 = map.getCartDetalis();
+
+
+        for (CartDetailDto i:cartDetalis1 ) {
+            ProductDto p=i.getProducts();
+            p.setImg(decompressBytes(p.getImg()));
+        }
+        map.setCartDetalis(cartDetalis1);
+        return map;
     }
 
     @Override
-    public CartDto GetCart(Integer Userid) {
-        User user = this.userRepo.findById(Userid).orElseThrow();
+    public CartDto GetCart(String userEmail) {
+        User user = this.userRepo.findByEmail(userEmail);
         Cart byUser = this.cartRepo.findByUser(user);
 
 
-        return this.modelMapper.map(byUser,CartDto.class);
+
+    // img decompressBytes
+        CartDto map = this.modelMapper.map(byUser, CartDto.class);
+        List<CartDetailDto> cartDetalis1 = map.getCartDetalis();
+
+
+        for (CartDetailDto i:cartDetalis1 ) {
+            ProductDto p=i.getProducts();
+            p.setImg(decompressBytes(p.getImg()));
+        }
+        map.setCartDetalis(cartDetalis1);
+        return map;
     }
 
     @Override
-    public CartDto DeleteCart(Integer Userid) {
-        return null;
+    public void RemoveById(Integer ProductId, String userEmail) {
+        User user = this.userRepo.findByEmail(userEmail);
+
+        Product product = this.productRepo.findById(ProductId).orElseThrow();
+        Cart cart =this.cartRepo.findByUser(user);
+
+        CartDetalis byProductsAndCart = this.cartDetailsRepo.findByProductsAndCart(product, cart);
+        int amount = byProductsAndCart.getAmount();
+        cart.setTotalAmount(cart.getTotalAmount()-amount);
+        this.cartRepo.save(cart);
+
+        this.cartDetailsRepo.delete(byProductsAndCart);
+
+
     }
 
 
+
+
+
+
+
+
+
+
+    public Product changeImg(Product product){
+
+        product.setImg(decompressBytes(product.getImg()));
+
+        System.out.println("hello");
+        return product;
+    }
+
     public int totalP(int t1, int total){
-        System.out.println(t1+"  "+total);
         return total+t1;
+    }
+
+
+
+    public static byte[] decompressBytes(byte[] data) {
+        Inflater inflater = new Inflater();
+        inflater.setInput(data);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
+        byte[] buffer = new byte[1024];
+        try {
+            while (!inflater.finished()) {
+                int count = inflater.inflate(buffer);
+                outputStream.write(buffer, 0, count);
+            }
+            outputStream.close();
+        } catch (IOException ioe) {
+        } catch (DataFormatException e) {
+        }
+        return outputStream.toByteArray();
     }
 }

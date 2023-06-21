@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -54,8 +55,8 @@ public class ProductServiceImpl implements ProductService {
     //Read All
     @Override
     public List<ProductDto> ReadAllProduct() {
-
         List<Product> all = this.productRepo.findAll();
+
 
         List<ProductDto> collect = all.stream().map(dto -> new ProductDto(dto.getProductId(), dto.getProductName(), dto.getDescription(), dto.getPrice(), dto.getWeight(), decompressBytes(dto.getImg()))).collect(Collectors.toList());
 

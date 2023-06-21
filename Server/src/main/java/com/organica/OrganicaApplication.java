@@ -13,6 +13,8 @@ public class OrganicaApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(OrganicaApplication.class, args);
 	}
+
+
 	@Bean
 	public ModelMapper modelMapper(){
 		return new ModelMapper();
@@ -25,7 +27,7 @@ public class OrganicaApplication {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/").allowedOrigins("/*");
+				registry.addMapping("/**").allowedOrigins("http://localhost:3000");
 			}
 		};
 	}

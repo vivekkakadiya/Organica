@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { Header } from '../Component/Header'
 import { Footer } from '../Component/Footer'
 import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export const ProductDetails = () => {
   
   const [data, setData] = useState([]);
   const [quantity, setQuantity] = useState(1);
+  const[token,setToken]=useState(sessionStorage.getItem("token"));
+
   const {id}=useParams();
 
   const handleQuantity = (e) => {
@@ -22,18 +25,51 @@ export const ProductDetails = () => {
       setQuantity(quantity + 1);
     }
   }
-
-  const handleCart = () => {
-
-    //handle cart at backend
-   
+ const onToast = () => {
+    toast.success('Added to cart!', {
+      position: "bottom-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      });
   }
-  console.log(quantity);
+  const handleCart = async () => {
+console.log(quantity);
+    const res = await fetch(
+      `http://localhost:9090/cart/addproduct`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+        },
+        body: JSON.stringify({
+         
+          productId: id,
+          quantity: quantity,
+        }),
+      }
+
+      );
+    if (res.status === 200) {
+      onToast();
+    }
+      
+    
+};
   useEffect(() => {
     window.scrollTo(0, 0) 
 
     const fatchData = async () => {
-      const response = await fetch(`http://localhost:9090/product/${id}`);
+        const response = await fetch(`http://localhost:9090/product/${id}`, {
+          headers: {
+          "Authorization": "Bearer "+token
+          },
+        });
 
       const res = await response.json();
       setData(res);
@@ -134,7 +170,7 @@ export const ProductDetails = () => {
             <div className="product-count">
               <label htmlFor="size">Quantity</label>
               <form action="#" className="display-flex">
-                <div className="qtyminus" onClick={handleMinus}>-</div>
+                <div className="qtyminus" onClick={()=>handleMinus()}>-</div>
                 <input
                   type="text"
                   name="quantity"
@@ -143,9 +179,9 @@ export const ProductDetails = () => {
                   value={quantity}
                   className="qty"
                 />
-                <div className="qtyplus" onClick={handlePlus}>+</div>
+                <div className="qtyplus" onClick={()=>handlePlus()}>+</div>
               </form>
-              <a href="#" className="round-black-btn" onClick={handleCart}>
+              <a  className="round-black-btn" onClick={(quantity)=>handleCart(quantity)}>
                 Add to Cart
               </a>
             </div>

@@ -38,7 +38,6 @@ public class ProductControllers {
     //Get by Id
     @GetMapping("/{productid}")
     public ResponseEntity<ProductDto> GetById(@PathVariable Integer productid){
-        System.out.println(productid);
         ProductDto product = this.productService.ReadProduct(productid);
 
         return new ResponseEntity<>(product,HttpStatusCode.valueOf(200));
@@ -48,7 +47,6 @@ public class ProductControllers {
     //Get All Product
     @GetMapping("/")
     public ResponseEntity<List<ProductDto>> getAll(){
-
         List<ProductDto> products = this.productService.ReadAllProduct();
 
         return new ResponseEntity<>(products,HttpStatusCode.valueOf(200));

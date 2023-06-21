@@ -20,8 +20,7 @@ public class UserDto {
 
     private int Userid;
 
-    private String FName;
-    private String LName;
+    private String Name;
     private String Email;
     private String Password;
     private String Contact;

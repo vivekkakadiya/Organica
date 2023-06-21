@@ -1,9 +1,100 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Footer } from "../Component/Footer";
 import { Header } from "../Component/Header";
+import { Items } from "../Component/CartComponent/Items";
 
 export const Cart = () => {
   useEffect(() => { window.scrollTo(0, 0) }, []);
+  // const razorpay=useRazorpay();
+  
+      const [data, setdata] = useState();
+      const[item,setItem]=useState([]);
+      const [loading, setLoading] = useState(9);
+      const [totalAmount, setTotalAmount] = useState(0);
+      const[token,setToken]=useState(sessionStorage.getItem("token"));
+
+
+      const fatchCart = async () => {
+        // get cart item
+        console.log(token);
+        const res = await fetch("http://localhost:9090/cart/1", {headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer "+token
+          },
+        });
+        const data = await res.json();
+        setTotalAmount(data.totalAmount);
+        setItem(data.cartDetalis);
+      };
+
+      useEffect(() => {
+        fatchCart();
+
+      }, [loading]);
+
+      
+
+      const createOrder = async (e) => {
+        const res = await fetch(`http://localhost:9090/payment/${totalAmount}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+          },
+        });
+        const da = await res.json();
+        setdata(da);
+        return da;
+      }
+
+
+      const handlePayment = async () => {
+        const order = await createOrder();
+        const options = {
+          key: order.key,
+          amount: order.amount, 
+          currency: order.currency,
+          name: "userName",
+          description: "Test Transaction",
+          image: "https://example.com/your_logo",
+          order_id: order.orderId, 
+          handler: function (response) {
+            console.log(response);
+            alert(response.razorpay_payment_id);
+            alert(response.razorpay_order_id);
+            alert(response.razorpay_signature);
+          },
+          prefill: {
+            name: "vivek",
+            email: "vivek@gmail.com",
+            contact: 7405999619,
+          },
+          notes: {
+            address: "ABC, Delhi",
+          },
+          theme: {
+            color: "#3399cc",
+          },
+        };
+      
+        const rzp1 = new window.Razorpay(options);;
+        rzp1.on("payment.failed", function (response) {
+          alert(response.error.code);
+          alert(response.error.description);
+          alert(response.error.source);
+          alert(response.error.step);
+          alert(response.error.reason);
+          alert(response.error.metadata.order_id);
+          alert(response.error.metadata.payment_id);
+        });
+      
+        rzp1.open();
+      };
+     
+
+
+
+
 
   return (
     <>
@@ -36,59 +127,18 @@ export const Cart = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <th scope="row" className="border-0">
-                            <div className="p-2">
-                              <img
-                                src="https://res.cloudinary.com/mhmd/image/upload/v1556670479/product-1_zrifhn.jpg"
-                                alt=""
-                                width={70}
-                                className="img-fluid rounded shadow-sm d-inline "
-                              />
-                              <div className="ml-3 d-inline-block align-middle">
-                                <h5 className="mb-0">
-                                  {" "}
-                                  <a
-                                    href="#"
-                                    className="text-dark d-inline-block align-middle"
-                                  >
-                                    Timex Unisex Originals
-                                  </a>
-                                </h5>
-                                <span className="text-muted font-weight-normal font-italic d-block">
-                                  Category: Watches
-                                </span>
-                              </div>
-                            </div>
-                          </th>
-                          <td className="border-0 align-middle">
-                            <strong>$79.00</strong>
-                          </td>
-                          <td className="border-0 align-middle">
-                            <div className="qty2">
-                              <form action="#" className="display-flex">
-                                <button className="qtyminus1">-</button>
 
-                                <input
-                                  type="text"
-                                  name="quantity"
-                                  defaultValue={1}
-                                  className="qty1"
-                                />
-                                <button className="qtyplus1">+</button>
-                              </form>
-                            </div>
-                            {/* <div className="qtyminus">-</div>
-                            <i class="fa-light fa-plus"/>
-                            <strong>3</strong>
-                            <div className="qtyplus">+</div> */}
-                          </td>
-                          <td className="border-0 align-middle">
-                            <a href="#" className="text-dark">
-                              <i className="fa fa-trash" />
-                            </a>
-                          </td>
-                        </tr>
+
+                    {item ?    item.map((elem,index) => {
+                          return (
+                            <>
+
+                              <Items
+                                key={index} prop={elem} setLoading={setLoading} />
+                              </>
+                          )})
+                        :<></>}
+
                       </tbody>
                     </table>
                   </div>
@@ -109,29 +159,30 @@ export const Cart = () => {
                     <ul className="list-unstyled mb-4">
                       <li className="d-flex justify-content-between py-3 border-bottom">
                         <strong className="text-muted">Order Subtotal </strong>
-                        <strong>$390.00</strong>
+                        <strong>Rs {totalAmount}</strong>
                       </li>
                       <li className="d-flex justify-content-between py-3 border-bottom">
                         <strong className="text-muted">
                           Shipping and handling
                         </strong>
-                        <strong>$10.00</strong>
+                        <strong>Rs 100.00</strong>
                       </li>
                       <li className="d-flex justify-content-between py-3 border-bottom">
                         <strong className="text-muted">Tax</strong>
-                        <strong>$0.00</strong>
+                        <strong>Rs 0.00</strong>
                       </li>
                       <li className="d-flex justify-content-between py-3 border-bottom">
                         <strong className="text-muted">Total</strong>
-                        <h5 className="font-weight-bold">$400.00</h5>
+                        <h3 className="font-weight-bold">Rs {totalAmount +100}</h3>
                       </li>
                     </ul>
-                    <a
-                      href="#"
+                    <button
+                      href=""
                       className="btn btn-dark rounded-pill py-2 btn-block"
+                      onClick={(e) => handlePayment(e)}
                     >
                       Procceed to checkout
-                    </a>
+                    </button>
                   </div>
                 </div>
               </div>

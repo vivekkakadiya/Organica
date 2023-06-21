@@ -19,7 +19,7 @@ public class CartDetalis {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int CartDetalisId;
 
-    @OneToOne
+    @ManyToOne
     private Product products;
     private int Quantity;
     private int Amount;

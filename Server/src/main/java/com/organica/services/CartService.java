@@ -14,9 +14,13 @@ public interface CartService {
     CartDto addProductToCart(CartHelp cartHelp);
 
     //Get
-    CartDto GetCart(Integer Userid);
+    CartDto GetCart(String userEmail);
+
+    //delete product
+
+    void RemoveById(Integer ProductId,String userEmail);
 
     //delete
-    CartDto DeleteCart(Integer Userid);
+
 
 }
