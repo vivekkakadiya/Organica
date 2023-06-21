@@ -2494,7 +2494,7 @@ body {
 
 .round-black-btn {
   border-radius: 4px;
-  background: #212529;
+  /* background: #4cd964; */
   color: #fff;
   padding: 7px 45px;
   display: inline-block;

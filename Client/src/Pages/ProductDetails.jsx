@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Header } from '../Component/Header'
 import { Footer } from '../Component/Footer'
 import { useParams } from 'react-router-dom';
-
+import { toast } from 'react-toastify';
 export const ProductDetails = () => {
   
   const [data, setData] = useState([]);
@@ -24,9 +24,20 @@ export const ProductDetails = () => {
       setQuantity(quantity + 1);
     }
   }
-
-  const handleCart = async (q) => {
-
+ const onToast = () => {
+    toast.success('Added to cart!', {
+      position: "bottom-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      });
+  }
+  const handleCart = async () => {
+console.log(quantity);
     const res = await fetch(
       `http://localhost:9090/cart/addproduct`,
       {
@@ -36,14 +47,18 @@ export const ProductDetails = () => {
         "Authorization": "Bearer " + token
         },
         body: JSON.stringify({
-          userId: 1,
+         
           productId: id,
-          quantity: q,
+          quantity: quantity,
         }),
       }
 
       );
-    const temp= await res.json();
+    if (res.status === 200) {
+      onToast();
+    }
+      
+    
 };
   useEffect(() => {
     window.scrollTo(0, 0) 
@@ -154,7 +169,7 @@ export const ProductDetails = () => {
             <div className="product-count">
               <label htmlFor="size">Quantity</label>
               <form action="#" className="display-flex">
-                <div className="qtyminus" onClick={handleMinus}>-</div>
+                <div className="qtyminus" onClick={()=>handleMinus()}>-</div>
                 <input
                   type="text"
                   name="quantity"
@@ -163,9 +178,9 @@ export const ProductDetails = () => {
                   value={quantity}
                   className="qty"
                 />
-                <div className="qtyplus" onClick={handlePlus}>+</div>
+                <div className="qtyplus" onClick={()=>handlePlus()}>+</div>
               </form>
-              <a href="#" className="round-black-btn" onClick={(quantity)=>handleCart(quantity)}>
+              <a  className="round-black-btn" onClick={(quantity)=>handleCart(quantity)}>
                 Add to Cart
               </a>
             </div>

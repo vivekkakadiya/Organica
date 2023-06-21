@@ -23,14 +23,7 @@ export const Items = ({ prop ,setLoading}) => {
   }
   // console.log(quantity);
   const updateQuantity = async (q) => {
-  // const res=axiosFetch({
-  //   "url":"cart/addproduct",
-  //   "method":"POST",
-  //   "data":JSON.stringify({
-  //     productId: prop.products.productid,
-  //     quantity: q,
-  //   })
-  // })
+ 
     const res = await fetch(
       `http://localhost:9090/cart/addproduct`,
       {

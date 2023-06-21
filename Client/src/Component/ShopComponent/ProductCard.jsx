@@ -88,9 +88,9 @@ export const ProductCard = (props) => {
             <a href="/product/1">{props.name}</a>
           </h3>
           <div className="price-wrapper">
-            <del className="del">$75.00</del>
+            <del className="del">Rs {props.price+100}</del>
             <data className="price" value={85.0}>
-              {props.price}
+              Rs {props.price}
             </data>
           </div>
           <button className="btn btn-primary" onClick={() => handalCart()}>
