@@ -3,6 +3,7 @@ import { Header } from '../Component/Header'
 import { Footer } from '../Component/Footer'
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+
 export const ProductDetails = () => {
   
   const [data, setData] = useState([]);
