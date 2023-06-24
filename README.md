@@ -23,7 +23,7 @@ To run this project locally, you need to have the following software installed:
 - Product browsing and searching
 - Shopping cart management
 - Order placement and tracking
-- Payment integration (e.g., Stripe, PayPal)
+- Razorpay Payment integration
 - User profile management
 - Admin dashboard for managing products, orders, and users
 
