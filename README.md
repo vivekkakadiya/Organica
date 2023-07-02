@@ -2,6 +2,7 @@
 
 Organica is a full-stack e-commerce project built using Spring Boot, MySQL, and React.js. It handles various operations on the server side, such as managing the shopping cart and other functionalities. For security, it utilizes JWT authentication and authorization using Spring Security.
 
+<a href="https://hits.sh/github.com/vivekkakadiya/Organica"><img alt="Hits" src="https://hits.sh/github.com/vivekkakadiya/Organica.svg?label=Viewer%20Count&color=355C7D&labelColor=4083e9"/></a>
 ## Tech Stack
 
 - Backend Framework: Spring Boot
