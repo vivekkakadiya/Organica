@@ -25,8 +25,6 @@ To run this project locally, you need to have the following software installed:
 - Shopping cart management
 - Order placement and tracking
 - Razorpay Payment integration
-- User profile management
-- Admin dashboard for managing products, orders, and users
 
 ## Getting Started
 
