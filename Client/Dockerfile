@@ -23,6 +23,7 @@ COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY --from=Builder /app/build /usr/share/nginx/html
 
 EXPOSE 80:80
+#RUN the container
 
 ENTRYPOINT ["nginx-debug", "-g", "daemon off;"]
 
