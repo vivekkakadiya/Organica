@@ -1,23 +1,29 @@
-# Base image
-FROM node:16-alpine
+#Stage1: Build the react app using alpine version of node
+FROM node:18-alpine as Builder
 
-# Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
 COPY package*.json ./
 
-# Install dependencies
-RUN npm install
+RUN npm ci
 
-# Copy project files
 COPY . .
 
-# Build the React app
 RUN npm run build
 
-# Expose port 3000
-EXPOSE 3000:3000
 
-# Start the React app
-CMD ["npm", "start"]
+#Stage 2: Use nginx to serve the static build 
+
+FROM nginx:1.31.2-alpine
+
+WORKDIR /app
+
+COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
+
+COPY --from=Builder /app/build /usr/share/nginx/html
+
+EXPOSE 80:80
+
+ENTRYPOINT ["nginx-debug", "-g", "daemon off;"]
+
+

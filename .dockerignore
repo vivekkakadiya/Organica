@@ -1,0 +1,11 @@
+# Ignore Maven build directories and local wrappers
+target/
+.mvn/
+mvnw
+mvnw.cmd
+
+# Ignore Vim and editor swap files
+*.swp
+*.swo
+.*.swp
+.*.swo

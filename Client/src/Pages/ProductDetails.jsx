@@ -40,7 +40,7 @@ export const ProductDetails = () => {
   const handleCart = async () => {
 console.log(quantity);
     const res = await fetch(
-      `http://localhost:9090/cart/addproduct`,
+      `${process.env.REACT_APP_API_URL}/cart/addproduct`,
       {
         method: "POST",
         headers: {
@@ -65,7 +65,7 @@ console.log(quantity);
     window.scrollTo(0, 0) 
 
     const fatchData = async () => {
-        const response = await fetch(`http://localhost:9090/product/${id}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/product/${id}`, {
           headers: {
           "Authorization": "Bearer "+token
           },

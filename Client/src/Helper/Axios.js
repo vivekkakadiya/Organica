@@ -8,7 +8,7 @@ const axiosFetch = async ({ url, method, data = null }) => {
     const token = sessionStorage.getItem("token") ?? "{}";
     console.log(token);
     const response = await axios.request({
-      url: "http://localhost:9090/" + url,
+      url: `${process.env.REACT_APP_API_URL}/${url}`,
       method,
       data: data,
       headers: {

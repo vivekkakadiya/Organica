@@ -39,7 +39,7 @@ export const Singup = () => {
     window.location.href = "/login";
     e.preventDefault();
     if (user.password === user.confirmPassword) {
-      const res = await fetch("http://localhost:9090/auth/singup", {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/auth/singup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
